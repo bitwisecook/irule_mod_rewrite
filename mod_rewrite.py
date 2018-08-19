@@ -182,7 +182,7 @@ class RewriteRule:
             r[2]
             .strip('"')
             .replace("\\", "\\\\")
-            .replace("$", "\\")
+            .replace("$", "\\\\")
             .replace("{", "\\{")
             .replace("}", "\\}")
         )
@@ -231,7 +231,7 @@ class LTMRule:
         self.enable_opt = enable_opt
         self.rules = [LTMRuleRegSub(_, self) for _ in rules]
         if any(_.uses_qsappend for _ in self.rules):
-            self.uri_builder = '[expr {$keep_query?[expr {$uri contains "?"?"$uri&$qs_orig":"$uri?$qs_orig"}]:""}]'
+            self.uri_builder = '[expr {$keep_query?[expr {$uri contains "?"?"$uri&$qs_orig":"$uri?$qs_orig"}]:$uri}]'
         else:
             self.uri_builder = "$uri"
 
